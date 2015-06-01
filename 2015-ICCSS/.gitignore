@@ -1,1 +1,10 @@
+figure
 *~
+*.ps
+*.aux
+*.log
+*.bbl
+*.blg
+*.out
+*.tex
+
