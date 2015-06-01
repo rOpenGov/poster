@@ -1,10 +1,12 @@
-ALL: poster.pdf 
+# TODO..
 
-R CMD main.R
+ALL: poster.pdf
 
-#%.pdf: %.tex Makefile
-#        pdflatex --enable-write18 $< && pdflatex $< && pdflatex $<
+R CMD library(knitr); knit2pdf("poster.Rnw")
 
 clean:
-          rm -f *.aux   *.bbl   *.blg   *.log   
+	rm -f *.aux
+	rm -f *.bbl
+	rm -f *.blg
+	rm -f *.log   
 

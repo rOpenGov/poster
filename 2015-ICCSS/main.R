@@ -1,3 +1,3 @@
-library(knitr)
+library(knitr);
 knit2pdf("poster.Rnw")
 
