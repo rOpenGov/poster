@@ -1,0 +1,247 @@
+\documentclass[portrait,a0b,posterdraft]{a0poster}
+\usepackage{epsf,pstricks}
+
+\usepackage[utf8]{inputenc}
+\usepackage[sc]{mathpazo}
+\usepackage[T1]{fontenc}
+%\usepackage{hyperref}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1.0cm,bmargin=1.5cm,lmargin=1.5cm,rmargin=1.5cm}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+\usepackage{url}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{pdfstartview={XYZ null null 1}}
+\usepackage{authblk}
+\usepackage{nopageno}
+
+
+% Fonts
+%\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\familydefault}{\rmdefault}
+%\usepackage{times}
+
+% For tikz
+\usepackage{tikz}
+\usetikzlibrary{shapes,arrows,snakes}
+\usepackage{amsmath,amssymb}
+\usetikzlibrary{positioning}
+
+\title{\Huge Open Computational Ecosystems and Reproducible Research}
+\date{}
+\author{{Markus Kainu, Joona Lehtomäki, Juuso Parkkinen, Juha Yrjölä, Måns Magnusson, Mikko Tolonen, Niko Ilomäki, Leo Lahti}\\ \Large Contact: \textcolor{blue}{http://ropengov.github.io}}
+
+\begin{document}
+\pagestyle{empty}
+\maketitle
+\Large
+
+
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, text width=4.5em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, text width=5em, text centered, rounded corners, minimum height=4em]
+\tikzstyle{greenbox} = [rectangle, draw=blue, fill=green!20, text width=5em, text centered, rounded corners, inner sep=10pt, inner ysep=12pt, very thick]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse, node distance=4cm, minimum height=2em, text width=5em]
+\tikzstyle{mybox} = [draw=blue, fill=green!20, very thick, rectangle, rounded corners, inner sep=10pt, inner ysep=20pt]
+\tikzstyle{myboxwhite} = [rectangle, rounded corners, inner sep=10pt, inner ysep=0pt]
+\tikzstyle{myboxblue} = [rectangle, fill=blue!10, rounded corners, inner sep=10pt, inner ysep=5pt]
+\tikzstyle{fancytitle} = [fill=white, text=black, ellipse, draw=blue]
+
+
+\vspace{1mm}
+
+
+
+\begin{tikzpicture}[]
+
+\node [myboxwhite] (intro){%
+    \begin{minipage}{0.23\textwidth}
+
+\section*{Open data analysis}
+
+The recent explosion in open data availability has created novel
+opportunities for research, journalism and citizen science.
+
+Efficient data analytical tools are crucial for taking full advantage
+of digital data streams. Custom software libraries are now rapidly
+emerging and have a huge potential to contribute to transforming
+computational social sciences, digital humanities, and related fields.
+
+    \end{minipage}
+
+};
+
+
+
+\node [myboxblue, below of=intro, node distance=30cm, yshift=0cm, xshift=9.5cm] (ecosystem){%
+    \begin{minipage}{0.45\textwidth}
+
+\section*{Advantages of the open development model}
+
+Efficient data analysis relies on customized analysis workflows that
+are best developed jointly by the user community. Successful open
+source communities have emerged in research fields, such as
+bioinformatics and particle physics, and are now shaping up in social
+sciences and humanities. The open analytics has many benefits
+(Ioannidis 2014, Morin et al. 2012).
+    
+\begin{itemize}
+
+\item \textbf{Efficiency}: Many standard analysis tasks can automated,
+leaving more time for individual researchers to focus on their
+specific problems.
+
+\item \textbf{Transparency}: Full details of the analysis from raw
+data to the final results are available.
+
+\item \textbf{Reproducibility}: Reproducible analyses can be repeated
+exactly without human intervention. The analysis process is more
+transparent and can be easily expanded.
+
+\item \textbf{Standardization}: A community-driven development helps
+to pool scarce research resources, develop standards and ensure
+compatibility in data analysis.
+
+\item \textbf{Open source}: Openly licensed contributions guarantee
+that the tools are freely available for the international scientific
+community.
+
+  \end{itemize}
+
+  \end{minipage}
+
+};
+
+
+
+
+%\node [myboxwhite, left of=ropengov, node distance=45cm, yshift=50cm] (flowchart){%
+%\begin{minipage}{0.5\textwidth}
+
+    % Place nodes
+    \node [greenbox, right of=intro, node distance=18cm, yshift=5cm] (init) {Raw Data 1};
+    \node [greenbox, below of=init, node distance=6cm] (init2) {Raw Data 2};
+    \node [greenbox, below of=init2, node distance=6cm] (init3) {Raw Data 3};
+    \node [block, right of=init2, node distance=9cm] (tidydata) {Tidy\\Data};
+    \node [block, right of=tidydata, node distance=9cm] (summaries) {Statistical\\Summaries};
+    \node [cloud, above of=tidydata, node distance=9cm] (preprocess) {Preprocessing};
+        \node [block, right of=summaries, node distance=9cm] (figs) {Tables \&\\Figures};
+    \node [cloud, above of=summaries, node distance=8cm] (analysis) {Analysis};
+    \node [greenbox, right of=figs, node distance=9cm] (reporting) {Online Report\\(Github)};
+    \node [cloud, above of=figs, node distance=7cm] (visualization) {Visualization};
+    \node [cloud, above of=reporting, node distance=6cm] (reports) {Document Generation};
+
+    % Draw edges
+    \path [line] (init) -- (tidydata);
+    \path [line] (init2) -- (tidydata);
+    \path [line] (init3) -- (tidydata);
+    \path [line] (preprocess) -- (tidydata);
+    \path [line,dashed] (analysis) -- (summaries);
+    \path [line,dashed] (visualization) -- (figs);
+    \path [line,dashed] (reports) -- (reporting);
+
+    %\path [line] (init) |- (tidydata);
+    \path [line] (tidydata) |- (summaries);
+    \path [line] (summaries) |- (figs);
+    \path [line] (figs) |- (reporting);
+    
+{\bf Reproducible research workflow} Raw data sets are downloaded from original sources, tidied up, and integrated with other information. Statistical summaries, analyses and visualization are then automated with the aid of custom open source software libraries. The results are reported in web-based documents via automated document generation. The complete analysis workflow, including full access to every single detail from raw data to visualization, is shared publicly in distributed version control system (Github). The rOpenGov provides dedicated R libraries to support reproducible research in the fields of computational social science and digital humanities. For the full source code to reproduce this poster, see PLACE FINAL VERSION in ROPENGOV
+
+%\end{minipage}
+%};
+
+\node [myboxwhite, below of=ecosystem, node distance=30cm, xshift=10cm] (example){%
+\begin{minipage}{0.69\textwidth}
+  \section*{Eurostat open data: a reproducible example}
+
+  %\begin{figure}[h!]
+  <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5>>=
+  plot(seq(6))
+  @
+  %\caption{This is figure caption, too!}
+  %\end{figure}
+
+  This poster, including the Eurostat analysis example, is fully reproducible. ownload the full source code at \textcolor{blue}{http://...}
+
+\end{minipage}
+};
+
+\node [myboxwhite, right of=ecosystem, node distance=41cm, yshift = 0cm] (ropengov){%
+\begin{minipage}{0.48\textwidth}
+
+\section*{rOpenGov - open analytics for computational social sciences and digital humanities}
+
+rOpenGov (rOpeGov core team, 2013) is a statistical ecosystem focused
+on open source data analysis algorithms relevant to computational
+social sciences (Lazer et al. 2009) and digital humanities. We build
+on experiences learned from similar initiatives in other fields, such
+as Bioconductor and rOpenSci. We use the R statistical programming
+language which has rich statistical modeling and visualization
+capabilities. Main components of rOpenGov include:
+
+\begin{itemize}
+
+\item {\bf Online tutorials} reporting how to access and analyse
+specific open data sources (see the 'rOpenGov packages' box).
+
+\item {\bf Reproducible research blog} at (\textcolor{blue}{http://ropengov.github.io}) presents case studies on open data analytics.
+
+\item {\bf Shared version control} We use GitHub for shared version control
+and open development.
+
+\item {\bf R packages} General-purpose research algorithms are
+distributed as open source R packages to provide dedicated tools to
+download, preprocess, integrate, analyse, visualize and report digital
+data streams in a fully automated and transparent fashion. At present,
+the collection includes tools for countries (Russia, Finland, Poland,
+USA), cities (Helsinki), Statistics authorities (Eurostat, Finland,
+Denmark, Sweden, PX-Web, QOG), Data anonymization, Geographic
+information (OpenStreetMap, WFS, Finland), Meteorology, Health and
+demography, Bibliographic analysis (Finland, UK, Europe), Media
+(Enigma, ProPublica, Sunlight Foundation, New York Times), Political
+science, Elections and parliament (Austria, Finland, Russia, US
+Election Polls). For a full listing and links, see
+\textcolor{blue}{http://ropengov.github.io/projects/}
+    
+\end{itemize}
+
+\end{minipage}
+};
+
+
+\node [myboxwhite, below of=ropengov, node distance=52cm, xshift=12cm] (references){%
+    \begin{minipage}{0.23\textwidth}
+
+    \small{
+    \section*{References}
+
+    \begin{enumerate}
+      \item J. Ioannidis (2014). How to Make More Published Research True? PLoS Medicine 11(10): e1001747.      
+      \item D. Lazer et al. (2009). Computational Social Science 323, 721–723
+      \item A. Morin et al. (2012). Research priorities. Shining light into black boxes. Science 336, 159-160.
+      \item rOpenGov core team (2013). R ecosystem for open government data and computational social science. NIPS Machine Learning Open Source Software workshop (MLOSS). December 2013, Lake Tahoe, Nevada, US
+
+      % Naita voi lisata takaisin jos saa luontevasti kytketyksi hiottuun
+      % tekstiin, muuten jattaisin pois:
+      %\item S. Fortunato and C. Castellano (2012). Physics peeks into the ballot box. Physics Today 65:74
+      %\item S. Chou, W. Li and R. Sridharan, Democratizing Data Science.
+      %\item G. King, J. Pan and M. E. Roberts (2013). How Censorship in China Allows Government Criticism but Silences Collective Expression. American
+Political Science Review, 107(02), 326–343
+      %\item M. L. Jockers (2013). Macroanalysis: Digital Methods and Literary History. University of Illinois Press.
+
+    \end{enumerate}
+}
+\Large{
+    We are thankful for a number of developers. For a full list, see
+    \textcolor{blue}{http://ropengov.github.io}
+}   
+    \end{minipage}
+};
+
+\end{tikzpicture}
+
+\end{document}
