@@ -15,7 +15,7 @@
 \usepackage{url}
 \usepackage[unicode=true,pdfusetitle,
  bookmarks=true,bookmarksnumbered=true,bookmarksopen=true,bookmarksopenlevel=2,
- breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ breaklinks=ning,pdfborder={0 0 1},backref=ning,colorlinks=ning]
  {hyperref}
 \hypersetup{pdfstartview={XYZ null null 1}}
 \usepackage{authblk}
@@ -153,16 +153,81 @@ use GitHub for shared version control and open development.
 
 \node [myboxwhite, below of=ecosystem, node distance=29cm, xshift=10cm] (example){%
 \begin{minipage}{0.69\textwidth}
-  \section*{Eurostat open data: a reproducible case study}
-
+  % \section*{Eurostat open data: a reproducible case study}
+  
+  
   %\begin{figure}[h!]
-  <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5>>=
-  plot(seq(6))
+  <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5, cache=TRUE, message=FALSE, warning=FALSE, results="hide", echo=FALSE>>=
+  library(eurostat)
+  library(tidyr)
+  
+  df <- get_eurostat("tgs00026", time_format = "raw") 
+  df$time <- eurotime2num(df$time)
+  df <- df[df$time == max(df$time),]
+  download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", destfile="NUTS_2010_60M_SH.zip")
+  unzip("NUTS_2010_60M_SH.zip")
+  library(rgdal)
+  map <- readOGR(dsn = "./NUTS_2010_60M_SH/Data", layer = "NUTS_RG_60M_2010")
+  map_nuts2 <- subset(map, STAT_LEVL_ == 2)
+  NUTS_ID <- as.character(map_nuts2$NUTS_ID)
+  VarX <- rep(NA, 316)
+  dat <- data.frame(NUTS_ID,VarX)
+  dat2 <- merge(dat,df,by.x="NUTS_ID",by.y="geo", all.x=TRUE)
+  row.names(dat2) <- dat2$NUTS_ID
+  row.names(map_nuts2) <- as.character(map_nuts2$NUTS_ID)
+  ## order data
+  dat2 <- dat2[order(row.names(dat2)), ]
+  map_nuts2 <- map_nuts2[order(row.names(map_nuts2)), ]
+  ## join
+  library(maptools)
+  dat2$NUTS_ID <- NULL
+  shape <- spCbind(map_nuts2, dat2)
+  library(ggplot2)
+  library(rgeos)
+  shape$id <- rownames(shape@data)
+  map.points <- fortify(shape, region = "id")
+  map.df <- merge(map.points, shape, by = "id")
+  map.df$unit <- as.character(map.df$unit)
+  library(ggplot2)
+  library(scales)
+  library(grid)
+  p <- ggplot(data=map.df, aes(long,lat,group=group))
+  #p <- p + geom_polygon(data = map.df, aes(long,lat),fill=NA,colour="white",size = .2)
+  p <- p + geom_polygon(aes(fill = values),colour="white",size=.2)
+  p <- p + coord_map(project="orthographic", xlim=c(-10,34), ylim=c(35,65))
+  p <- p + labs(title = paste0("Disposable household incomes in ",max(df$time)))
+  p <- p +  theme(legend.position = c(0.23,0.50), 
+                          legend.justification=c(0,0),
+                          legend.key.size=unit(20,'mm'),
+                          legend.direction = "vertical",
+                          legend.background=element_rect(colour=NA, fill=alpha("white", 2/3)),
+                          legend.text=element_text(size=30), 
+                          legend.title=element_text(size=30), 
+                          title=element_text(size=30), 
+                          panel.background = element_blank(), 
+                          plot.background = element_blank(),
+#                           panel.grid.minor = element_line(colour = 'Grey80', size = .5, linetype = 'solid'),
+#                           panel.grid.major = element_line(colour = 'Grey80', size = .5, linetype = 'solid'),
+                          panel.grid.minor = element_blank(),
+                          panel.grid.major = element_blank(),
+                          axis.text = element_blank(), 
+                          axis.title = element_blank(), 
+                          axis.ticks = element_blank(), 
+                          plot.margin = unit(c(-3,-1.5, -3, -1.5), "cm"))
+  p <- p + guides(fill = guide_legend(title = "Euro per Year",
+                                     title.position = "top", 
+                                     title.hjust=0))
   @
   %\caption{This is figure caption, too!}
   %\end{figure}
+   \vspace{30mm}
+  
 
-  This poster, including the Eurostat analysis example, is fully reproducible. ownload the full source code at \textcolor{blue}{http://...}
+  <<page4-2, eval=TRUE, dev='pdf', fig.height=21, fig.width=21, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE>>=
+  print(p)
+
+  @
+
 
 \end{minipage}
 };
@@ -201,6 +266,28 @@ political science, elections and parliamentary monitoring. For a full
 list, see \textcolor{blue}{http://ropengov.github.io/projects}
 
 \end{itemize}
+
+<<eval=FALSE, echo=TRUE>>=
+  # Download Eurostat data using
+  library(eurostat)
+  df <- get_eurostat("tgs00026", time_format = "raw") 
+  # Download geospatial data
+  download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", 
+                destfile="NUTS_2010_60M_SH.zip")
+  # Manipulate data using
+  library(tidyr)
+  library(maptools)
+  library(rgdal)
+  library(sp)
+  library(rgeos)
+  # Plot data using
+  library(ggplot2)
+  library(scales)
+  library(grid)
+@
+
+This poster, including the Eurostat analysis example, is fully reproducible. ownload the full source code at \textcolor{blue}{http://...}
+
 
 \end{minipage}
 };
