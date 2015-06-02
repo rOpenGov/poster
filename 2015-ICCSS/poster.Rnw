@@ -155,17 +155,21 @@ use GitHub for shared version control and open development.
 \begin{minipage}{0.69\textwidth}
   % \section*{Eurostat open data: a reproducible case study}
   
+  <<lataa_shape, echo=FALSE, cache=TRUE, results="hide", message=FALSE>>=
+  download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", destfile="NUTS_2010_60M_SH.zip")
+  unzip("NUTS_2010_60M_SH.zip")
+    df <- get_eurostat("tgs00026", time_format = "raw") 
+@
+
   
   %\begin{figure}[h!]
   <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5, cache=TRUE, message=FALSE, warning=FALSE, results="hide", echo=FALSE>>=
   library(eurostat)
   library(tidyr)
   
-  df <- get_eurostat("tgs00026", time_format = "raw") 
+
   df$time <- eurotime2num(df$time)
   df <- df[df$time == max(df$time),]
-  download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", destfile="NUTS_2010_60M_SH.zip")
-  unzip("NUTS_2010_60M_SH.zip")
   library(rgdal)
   map <- readOGR(dsn = "./NUTS_2010_60M_SH/Data", layer = "NUTS_RG_60M_2010")
   map_nuts2 <- subset(map, STAT_LEVL_ == 2)
@@ -194,9 +198,9 @@ use GitHub for shared version control and open development.
   p <- ggplot(data=map.df, aes(long,lat,group=group))
   #p <- p + geom_polygon(data = map.df, aes(long,lat),fill=NA,colour="white",size = .2)
   p <- p + geom_polygon(aes(fill = values),colour="white",size=.2)
-  p <- p + coord_map(project="orthographic", xlim=c(-10,34), ylim=c(35,65))
+  p <- p + coord_map(project="orthographic", xlim=c(-10,45), ylim=c(25,90))
   p <- p + labs(title = paste0("Disposable household incomes in ",max(df$time)))
-  p <- p +  theme(legend.position = c(0.23,0.50), 
+  p <- p +  theme(legend.position = c(0.06,0.42), 
                           legend.justification=c(0,0),
                           legend.key.size=unit(20,'mm'),
                           legend.direction = "vertical",
@@ -220,14 +224,16 @@ use GitHub for shared version control and open development.
   @
   %\caption{This is figure caption, too!}
   %\end{figure}
-   \vspace{30mm}
-  
 
-  <<page4-2, eval=TRUE, dev='pdf', fig.height=21, fig.width=21, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE>>=
+\vspace{260mm}
+
+
+  <<page4-2, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE>>=
   print(p)
 
   @
 
+This poster, including the Eurostat analysis example, is fully reproducible. ownload the full source code at \textcolor{blue}{http://...}
 
 \end{minipage}
 };
@@ -286,7 +292,7 @@ list, see \textcolor{blue}{http://ropengov.github.io/projects}
   library(grid)
 @
 
-This poster, including the Eurostat analysis example, is fully reproducible. ownload the full source code at \textcolor{blue}{http://...}
+
 
 
 \end{minipage}
