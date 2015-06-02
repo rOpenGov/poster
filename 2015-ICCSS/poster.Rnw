@@ -1,6 +1,9 @@
-\documentclass[portrait,a0b,posterdraft]{a0poster}
-\usepackage{epsf,pstricks}
+\documentclass[portrait,a0,posterdraft]{a0poster}
+%\documentclass[portrait,a0,final]{a0poster}
+% For documentation, see
+% ftp://ftp.funet.fi/pub/TeX/CTAN/macros/latex/contrib/a0poster/a0_eng.pdf
 
+\usepackage{epsf,pstricks}
 \usepackage[utf8]{inputenc}
 \usepackage[sc]{mathpazo}
 \usepackage[T1]{fontenc}
@@ -52,63 +55,55 @@
 \tikzstyle{fancytitle} = [fill=white, text=black, ellipse, draw=blue]
 
 
-\vspace{1mm}
-
+\vspace{-1cm}
 
 
 \begin{tikzpicture}[]
 
 \node [myboxwhite] (intro){%
-    \begin{minipage}{0.23\textwidth}
+    \begin{minipage}{0.45\textwidth}
 
-\section*{Open data analysis}
-
-The recent explosion in open data availability has created novel
-opportunities for research, journalism and citizen science.
-
-Efficient data analytical tools are crucial for taking full advantage
-of digital data streams. Custom software libraries are now rapidly
-emerging and have a huge potential to contribute to transforming
-computational social sciences, digital humanities, and related fields.
+{\bf Open data analytics} The recent explosion in open data
+availability has created novel opportunities for research. Efficient
+data analytical tools are crucial for taking full advantage of digital
+data streams. Custom software libraries are now rapidly emerging and
+have a huge potential to contribute to transforming computational
+social sciences, digital humanities, and related fields.
 
     \end{minipage}
 
 };
 
 
-
-\node [myboxblue, below of=intro, node distance=30cm, yshift=0cm, xshift=9.5cm] (ecosystem){%
+\node [myboxblue, below of=intro, node distance=22cm, yshift=0cm, xshift=0cm] (ecosystem){%
     \begin{minipage}{0.45\textwidth}
 
-\section*{Advantages of the open development model}
+{\bf Advantages of the open development model} Efficient data analysis
+relies on customized workflows that are best developed jointly by the
+user community, as already is the standard practice in bioinformatics
+(Bioconductor), particle physics, and other fields (rOpenSci). Similar
+communities are now shaping up in social sciences and humanities. The
+open analytics has many benefits (Ioannidis 2014, Morin et al. 2012):
 
-Efficient data analysis relies on customized analysis workflows that
-are best developed jointly by the user community. Successful open
-source communities have emerged in research fields, such as
-bioinformatics and particle physics, and are now shaping up in social
-sciences and humanities. The open analytics has many benefits
-(Ioannidis 2014, Morin et al. 2012).
-    
+
 \begin{itemize}
 
-\item \textbf{Efficiency}: Many standard analysis tasks can automated,
-leaving more time for individual researchers to focus on their
-specific problems.
+\item \textbf{Efficiency}: Many standard tasks can be automated,
+leaving researchers more time to focus on the specific problems.
 
 \item \textbf{Transparency}: Full details of the analysis from raw
 data to the final results are available.
 
 \item \textbf{Reproducibility}: Reproducible analyses can be repeated
-exactly without human intervention. The analysis process is more
-transparent and can be easily expanded.
+exactly without human intervention and modified easily.
 
-\item \textbf{Standardization}: A community-driven development helps
-to pool scarce research resources, develop standards and ensure
-compatibility in data analysis.
+\item \textbf{Standardization}: A developer community can pool scarce
+research resources, develop standards in data analysis and ensure
+compatibility.
 
-\item \textbf{Open source}: Openly licensed contributions guarantee
-that the tools are freely available for the international scientific
-community.
+\item \textbf{Open source}: Open licensing guarantees that the tools
+are freely available for the international scientific community. We
+use GitHub for shared version control and open development.
 
   \end{itemize}
 
@@ -122,18 +117,20 @@ community.
 %\node [myboxwhite, left of=ropengov, node distance=45cm, yshift=50cm] (flowchart){%
 %\begin{minipage}{0.5\textwidth}
 
+\normalsize
+
     % Place nodes
-    \node [greenbox, right of=intro, node distance=18cm, yshift=5cm] (init) {Raw Data 1};
-    \node [greenbox, below of=init, node distance=6cm] (init2) {Raw Data 2};
-    \node [greenbox, below of=init2, node distance=6cm] (init3) {Raw Data 3};
-    \node [block, right of=init2, node distance=9cm] (tidydata) {Tidy\\Data};
-    \node [block, right of=tidydata, node distance=9cm] (summaries) {Statistical\\Summaries};
-    \node [cloud, above of=tidydata, node distance=9cm] (preprocess) {Preprocessing};
-        \node [block, right of=summaries, node distance=9cm] (figs) {Tables \&\\Figures};
-    \node [cloud, above of=summaries, node distance=8cm] (analysis) {Analysis};
-    \node [greenbox, right of=figs, node distance=9cm] (reporting) {Online Report\\(Github)};
-    \node [cloud, above of=figs, node distance=7cm] (visualization) {Visualization};
-    \node [cloud, above of=reporting, node distance=6cm] (reports) {Document Generation};
+    \node [greenbox, right of=intro, node distance=26cm, yshift=0cm] (init) {Raw Data 1};
+    \node [greenbox, below of=init, node distance=4cm] (init2) {Raw Data 2};
+    \node [greenbox, below of=init2, node distance=4cm] (init3) {Raw Data 3};
+    \node [block, right of=init2, node distance=7cm] (tidydata) {Tidy\\Data};
+    \node [block, right of=tidydata, node distance=7cm] (summaries) {Statistical\\Summaries};
+    \node [cloud, above of=tidydata, node distance=7cm] (preprocess) {Preprocessing};
+        \node [block, right of=summaries, node distance=7cm] (figs) {Tables \&\\Figures};
+    \node [cloud, above of=summaries, node distance=6cm] (analysis) {Analysis};
+    \node [greenbox, right of=figs, node distance=7cm] (reporting) {Online Report\\(Github)};
+    \node [cloud, above of=figs, node distance=5cm] (visualization) {Visualization};
+    \node [cloud, above of=reporting, node distance=4cm] (reports) {Document Generation};
 
     % Draw edges
     \path [line] (init) -- (tidydata);
@@ -149,14 +146,14 @@ community.
     \path [line] (summaries) |- (figs);
     \path [line] (figs) |- (reporting);
     
-{\bf Reproducible research workflow} Raw data sets are downloaded from original sources, tidied up, and integrated with other information. Statistical summaries, analyses and visualization are then automated with the aid of custom open source software libraries. The results are reported in web-based documents via automated document generation. The complete analysis workflow, including full access to every single detail from raw data to visualization, is shared publicly in distributed version control system (Github). The rOpenGov provides dedicated R libraries to support reproducible research in the fields of computational social science and digital humanities. For the full source code to reproduce this poster, see PLACE FINAL VERSION in ROPENGOV
+\Large
 
 %\end{minipage}
 %};
 
-\node [myboxwhite, below of=ecosystem, node distance=30cm, xshift=10cm] (example){%
+\node [myboxwhite, below of=ecosystem, node distance=29cm, xshift=10cm] (example){%
 \begin{minipage}{0.69\textwidth}
-  \section*{Eurostat open data: a reproducible example}
+  \section*{Eurostat open data: a reproducible case study}
 
   %\begin{figure}[h!]
   <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5>>=
@@ -170,50 +167,46 @@ community.
 \end{minipage}
 };
 
-\node [myboxwhite, right of=ecosystem, node distance=41cm, yshift = 0cm] (ropengov){%
+\node [myboxwhite, right of=ecosystem, node distance=40cm, yshift = -10cm] (ropengov){%
 \begin{minipage}{0.48\textwidth}
 
-\section*{rOpenGov - open analytics for computational social sciences and digital humanities}
+\normalsize
 
-rOpenGov (rOpeGov core team, 2013) is a statistical ecosystem focused
-on open source data analysis algorithms relevant to computational
-social sciences (Lazer et al. 2009) and digital humanities. We build
-on experiences learned from similar initiatives in other fields, such
-as Bioconductor and rOpenSci. We use the R statistical programming
-language which has rich statistical modeling and visualization
-capabilities. Main components of rOpenGov include:
+{\bf Reproducible research workflow} Raw data sets are downloaded from original sources, tidied up, and integrated with other information. Statistical summaries, analyses and visualization are then automated with the aid of custom open source software libraries. The results are reported in web-based documents via automated document generation. The complete analysis workflow, including full access to every single detail from raw data to visualization, is shared publicly in distributed version control system (Github). The rOpenGov provides dedicated R libraries to support reproducible research in the fields of computational social science and digital humanities. The full source code of this poster is at \textcolor{blue}{https://github.com/rOpenGov/poster/tree/master/2015-ICCSS}.
+
+\Large
+
+{\bf rOpenGov} (rOpeGov core team, 2013) is an open source community
+and a statistical ecosystem based on the {\bf R statistical
+programming language} which has rich data analytical capabilities. We
+develop data analysis methods for computational social science (Lazer
+et al. 2009) and digital humanities. Main components include:
 
 \begin{itemize}
 
-\item {\bf Online tutorials} reporting how to access and analyse
-specific open data sources (see the 'rOpenGov packages' box).
+\item {\bf Reproducible research blog}
+(\textcolor{blue}{http://ropengov.github.io}) highlights the
+opportunities of open data analytics.
 
-\item {\bf Reproducible research blog} at (\textcolor{blue}{http://ropengov.github.io}) presents case studies on open data analytics.
+\item {\bf Online tutorials} demonstrate how to access and analyse
+open data streams.
 
-\item {\bf Shared version control} We use GitHub for shared version control
-and open development.
+\item {\bf R packages} provide the means to share computational
+algorithms to support reproducible data analysis. Our collection
+includes tools for open data in various countries (Finland, Poland,
+Russia, USA), cities (Helsinki), statistics authorities (Eurostat,
+PX-Web, QOG), data anonymization, geographic information
+(OpenStreetMap, WFS), weather, demography, bibliograpies, media APIs,
+political science, elections and parliamentary monitoring. For a full
+list, see \textcolor{blue}{http://ropengov.github.io/projects}
 
-\item {\bf R packages} General-purpose research algorithms are
-distributed as open source R packages to provide dedicated tools to
-download, preprocess, integrate, analyse, visualize and report digital
-data streams in a fully automated and transparent fashion. At present,
-the collection includes tools for countries (Russia, Finland, Poland,
-USA), cities (Helsinki), Statistics authorities (Eurostat, Finland,
-Denmark, Sweden, PX-Web, QOG), Data anonymization, Geographic
-information (OpenStreetMap, WFS, Finland), Meteorology, Health and
-demography, Bibliographic analysis (Finland, UK, Europe), Media
-(Enigma, ProPublica, Sunlight Foundation, New York Times), Political
-science, Elections and parliament (Austria, Finland, Russia, US
-Election Polls). For a full listing and links, see
-\textcolor{blue}{http://ropengov.github.io/projects/}
-    
 \end{itemize}
 
 \end{minipage}
 };
 
 
-\node [myboxwhite, below of=ropengov, node distance=52cm, xshift=12cm] (references){%
+\node [myboxwhite, below of=ropengov, node distance=57cm, xshift=10cm] (references){%
     \begin{minipage}{0.23\textwidth}
 
     \small{
