@@ -155,7 +155,7 @@ use GitHub for shared version control and open development.
 \begin{minipage}{0.69\textwidth}
   % \section*{Eurostat open data: a reproducible case study}
   
-  \vspace{260mm}
+  \vspace{200mm}
   
   <<lataa_shape, echo=FALSE, cache=TRUE, results="hide", message=FALSE>>=
   download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", destfile="NUTS_2010_60M_SH.zip")
@@ -165,14 +165,10 @@ use GitHub for shared version control and open development.
 
   
   %\begin{figure}[h!]
-  <<page4-1, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE, >>=
-  library(eurostat)
-  library(tidyr)
-    
-    
+  <<page4-1, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE>>=
+  invisible(lapply(c("eurostat","tidyr","rgdal","maptools","rgeos","ggplot2","scales","grid"), require, character.only=T))
   df$time <- eurotime2num(df$time)
   df <- df[df$time == max(df$time),]
-  library(rgdal)
   map <- readOGR(dsn = "./NUTS_2010_60M_SH/Data", layer = "NUTS_RG_60M_2010", verbose = FALSE)
   map_nuts2 <- subset(map, STAT_LEVL_ == 2)
   NUTS_ID <- as.character(map_nuts2$NUTS_ID)
@@ -181,58 +177,27 @@ use GitHub for shared version control and open development.
   dat2 <- merge(dat,df,by.x="NUTS_ID",by.y="geo", all.x=TRUE)
   row.names(dat2) <- dat2$NUTS_ID
   row.names(map_nuts2) <- as.character(map_nuts2$NUTS_ID)
-  ## order data
   dat2 <- dat2[order(row.names(dat2)), ]
   map_nuts2 <- map_nuts2[order(row.names(map_nuts2)), ]
-  ## join
-  library(maptools)
   dat2$NUTS_ID <- NULL
   shape <- spCbind(map_nuts2, dat2)
-  library(ggplot2)
-  library(rgeos)
   shape$id <- rownames(shape@data)
   map.points <- fortify(shape, region = "id")
   map.df <- merge(map.points, shape, by = "id")
   map.df$unit <- as.character(map.df$unit)
-  library(ggplot2)
-  library(scales)
-  library(grid)
   p <- ggplot(data=map.df, aes(long,lat,group=group))
-  #p <- p + geom_polygon(data = map.df, aes(long,lat),fill=NA,colour="white",size = .2)
-  p <- p + geom_polygon(aes(fill = values),colour="white",size=.2)
+  p <- p + geom_polygon(aes(fill = values), color= alpha("white", 1/2),  size=.2)
   p <- p + coord_map(project="orthographic", xlim=c(-10,45), ylim=c(25,90))
-  p <- p + labs(title = paste0("Disposable household incomes in ",max(df$time)))
-  p <- p +  theme(legend.position = c(0.06,0.42), 
-                          legend.justification=c(0,0),
-                          legend.key.size=unit(20,'mm'),
-                          legend.direction = "vertical",
+  p <- p +  theme(legend.position = c(0.06,0.42), legend.justification=c(0,0), legend.key.size=unit(20,'mm'),
                           legend.background=element_rect(colour=NA, fill=alpha("white", 2/3)),
-                          legend.text=element_text(size=30), 
-                          legend.title=element_text(size=30), 
-                          title=element_text(size=30), 
-                          panel.background = element_blank(), 
-                          plot.background = element_blank(),
-#                           panel.grid.minor = element_line(colour = 'Grey80', size = .5, linetype = 'solid'),
-#                           panel.grid.major = element_line(colour = 'Grey80', size = .5, linetype = 'solid'),
-                          panel.grid.minor = element_blank(),
-                          panel.grid.major = element_blank(),
-                          axis.text = element_blank(), 
-                          axis.title = element_blank(), 
-                          axis.ticks = element_blank(), 
+                          legend.text=element_text(size=30), legend.title=element_text(size=30), title=element_text(size=30), 
+                          panel.background = element_blank(), plot.background = element_blank(), panel.grid = element_blank(),
+                          axis.text = element_blank(), axis.title = element_blank(), axis.ticks = element_blank(), 
                           plot.margin = unit(c(-3,-1.5, -3, -1.5), "cm"))
-  p <- p + guides(fill = guide_legend(title = "Euro per Year",
-                                     title.position = "top", 
-                                     title.hjust=0))
-  p
-
+  p + guides(fill = guide_legend(title = "Euro per Year", title.position = "top", title.hjust=0))
   @
-  %\caption{This is figure caption, too!}
-  %\end{figure}
 
-
-
-
-This poster, including the Eurostat analysis example, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/rOpenGov/poster/blob/master/2015-ICCSS/code/eurostat_map.R}}
+  The map above shows \textit{disposable incomes of private households at NUTS2 level regions in European Union in 2011}. This poster, including the Eurostat analysis example above, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/ropengov/poster}}
 
 \end{minipage}
 };
@@ -241,6 +206,7 @@ This poster, including the Eurostat analysis example, is fully reproducible. Dow
 \begin{minipage}{0.48\textwidth}
 
 \normalsize
+\vspace{120mm}
 
 {\bf Reproducible research workflow} Raw data sets are downloaded from original sources, tidied up, and integrated with other information. Statistical summaries, analyses and visualization are then automated with the aid of custom open source software libraries. The results are reported in web-based documents via automated document generation. The complete analysis workflow, including full access to every single detail from raw data to visualization, is shared publicly in distributed version control system (Github). The rOpenGov provides dedicated R libraries to support reproducible research in the fields of computational social science and digital humanities. The full source code of this poster is at \textcolor{blue}{https://github.com/rOpenGov/poster/tree/master/2015-ICCSS}.
 
@@ -272,27 +238,42 @@ list, see \textcolor{blue}{http://ropengov.github.io/projects}
 
 \end{itemize}
 
+\scriptsize 
+
 <<eval=FALSE, echo=TRUE>>=
-  # Download Eurostat data using
-  library(eurostat)
-  df <- get_eurostat("tgs00026", time_format = "raw") 
-  # Download geospatial data
-  download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", 
-                destfile="NUTS_2010_60M_SH.zip")
-  # Manipulate data using
-  library(tidyr)
-  library(maptools)
-  library(rgdal)
-  library(sp)
-  library(rgeos)
-  # Plot data using
-  library(ggplot2)
-  library(scales)
-  library(grid)
+invisible(lapply(c("eurostat","tidyr","rgdal","maptools","rgeos","ggplot2","scales","grid"), require, character.only=T))
+  df$time <- eurotime2num(df$time)
+  df <- df[df$time == max(df$time),]
+  map <- readOGR(dsn = "./NUTS_2010_60M_SH/Data", layer = "NUTS_RG_60M_2010", verbose = FALSE)
+  map_nuts2 <- subset(map, STAT_LEVL_ == 2)
+  NUTS_ID <- as.character(map_nuts2$NUTS_ID)
+  VarX <- rep(NA, 316)
+  dat <- data.frame(NUTS_ID,VarX)
+  dat2 <- merge(dat,df,by.x="NUTS_ID",by.y="geo", all.x=TRUE)
+  row.names(dat2) <- dat2$NUTS_ID
+  row.names(map_nuts2) <- as.character(map_nuts2$NUTS_ID)
+  dat2 <- dat2[order(row.names(dat2)), ]
+  map_nuts2 <- map_nuts2[order(row.names(map_nuts2)), ]
+  dat2$NUTS_ID <- NULL
+  shape <- spCbind(map_nuts2, dat2)
+  shape$id <- rownames(shape@data)
+  map.points <- fortify(shape, region = "id")
+  map.df <- merge(map.points, shape, by = "id")
+  map.df$unit <- as.character(map.df$unit)
+  p <- ggplot(data=map.df, aes(long,lat,group=group))
+  p <- p + geom_polygon(aes(fill = values), color= alpha("white", 1/2),  size=.2)
+  p <- p + coord_map(project="orthographic", xlim=c(-10,45), ylim=c(25,90))
+  p <- p +  theme(legend.position = c(0.06,0.42), legend.justification=c(0,0), legend.key.size=unit(20,'mm'),
+                          legend.background=element_rect(colour=NA, fill=alpha("white", 2/3)),
+                          legend.text=element_text(size=30), legend.title=element_text(size=30), title=element_text(size=30), 
+                          panel.background = element_blank(), plot.background = element_blank(), panel.grid = element_blank(),
+                          axis.text = element_blank(), axis.title = element_blank(), axis.ticks = element_blank(), 
+                          plot.margin = unit(c(-3,-1.5, -3, -1.5), "cm"))
+  p + guides(fill = guide_legend(title = "Euro per Year", title.position = "top", title.hjust=0))
 @
 
 
-
+\normalsize
 
 \end{minipage}
 };
