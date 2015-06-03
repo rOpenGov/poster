@@ -155,6 +155,8 @@ use GitHub for shared version control and open development.
 \begin{minipage}{0.69\textwidth}
   % \section*{Eurostat open data: a reproducible case study}
   
+  \vspace{260mm}
+  
   <<lataa_shape, echo=FALSE, cache=TRUE, results="hide", message=FALSE>>=
   download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", destfile="NUTS_2010_60M_SH.zip")
   unzip("NUTS_2010_60M_SH.zip")
@@ -163,7 +165,7 @@ use GitHub for shared version control and open development.
 
   
   %\begin{figure}[h!]
-  <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5, cache=TRUE, message=FALSE, warning=FALSE, results="hide", echo=FALSE>>=
+  <<page4-1, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE, >>=
   library(eurostat)
   library(tidyr)
     
@@ -171,7 +173,7 @@ use GitHub for shared version control and open development.
   df$time <- eurotime2num(df$time)
   df <- df[df$time == max(df$time),]
   library(rgdal)
-  map <- readOGR(dsn = "./NUTS_2010_60M_SH/Data", layer = "NUTS_RG_60M_2010")
+  map <- readOGR(dsn = "./NUTS_2010_60M_SH/Data", layer = "NUTS_RG_60M_2010", verbose = FALSE)
   map_nuts2 <- subset(map, STAT_LEVL_ == 2)
   NUTS_ID <- as.character(map_nuts2$NUTS_ID)
   VarX <- rep(NA, 316)
@@ -221,17 +223,14 @@ use GitHub for shared version control and open development.
   p <- p + guides(fill = guide_legend(title = "Euro per Year",
                                      title.position = "top", 
                                      title.hjust=0))
+  p
+
   @
   %\caption{This is figure caption, too!}
   %\end{figure}
 
-\vspace{260mm}
 
 
-  <<page4-2, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE>>=
-  print(p)
-
-  @
 
 This poster, including the Eurostat analysis example, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/rOpenGov/poster/blob/master/2015-ICCSS/code/eurostat_map.R}}
 
