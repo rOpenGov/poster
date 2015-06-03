@@ -199,7 +199,7 @@ use GitHub for shared version control and open development.
   library(grid)
   p <- ggplot(data=map.df, aes(long,lat,group=group))
   #p <- p + geom_polygon(data = map.df, aes(long,lat),fill=NA,colour="white",size = .2)
-  p <- p + geom_polygon(aes(fill = values),colour="white",size=.2)
+  p <- p + geom_polygon(aes(fill = values), color= alpha("white", 1/2),  size=.2)
   p <- p + coord_map(project="orthographic", xlim=c(-10,45), ylim=c(25,90))
   p <- p + labs(title = paste0("Disposable household incomes in ",max(df$time)))
   p <- p +  theme(legend.position = c(0.06,0.42), 
@@ -226,14 +226,8 @@ use GitHub for shared version control and open development.
   p
 
   @
-  \textbf{Figure 1} In this picture a lot of things happens!
-  \vspace{10mm}
-  %\end{figure}
 
-
-
-
-This poster, including the Eurostat analysis example, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/rOpenGov/poster/blob/master/2015-ICCSS/code/eurostat_map.R}}
+  The map above shows \textit{disposable incomes of private households at NUTS2 level regions in European Union in 2011}. This poster, including the Eurostat analysis example above, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/ropengov/poster}}
 
 \end{minipage}
 };
