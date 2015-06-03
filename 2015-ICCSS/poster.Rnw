@@ -68,7 +68,8 @@ availability has created novel opportunities for research. Efficient
 data analytical tools are crucial for taking full advantage of these
 new information resources. Custom software libraries are now rapidly
 emerging and have a huge potential to contribute to transforming
-computational social sciences, digital humanities, and related fields.
+computational social sciences, digital humanities, and related fields
+(Lazer et al. 2009).
 
     \end{minipage}
 
@@ -213,17 +214,16 @@ The automatically generated map above shows \textit{disposable incomes of privat
 
 \node [myboxwhite, right of=ecosystem, node distance=40cm, yshift = -19cm] (ropengov){%
 \begin{minipage}{0.48\textwidth}
-{\bf Reproducible research workflow} R is a popular open source statistical programming language. The versatile ecosystem of R packages enables a completely automated analysis from raw data to the final reports. We create dedicated tools to support reproducible research in computational social science and digital humanities, helping to automatize many standard data analysis tasks in these fields. Raw data sets are downloaded from original sources, preprocessed, integrated with other information, analysed and visualized. The results are reported in web-based documents via automated document generation. The complete workflow, including full access to every detail, is shared publicly in distributed version control (Github). The full source code of this poster, for instance, is available at \textcolor{blue}{https://github.com/rOpenGov/poster/tree/master/2015-ICCSS}.
+{\bf Reproducible research workflow} R is a popular statistical programming language with a versatile open source ecosystem that enables a completely automated analysis from raw data to the final reports. We create dedicated tools to support reproducible research in computational social science and digital humanities, helping to automatize many standard data analysis tasks in these fields. Raw data sets are downloaded from original sources, preprocessed, integrated with other information, analysed and visualized. The results are reported in web-based documents via automated document generation. The complete workflow, including full access to every detail, is shared publicly in distributed version control (Github). The full source code of this poster is available at \textcolor{blue}{https://github.com/rOpenGov/poster}.
 
 \Large
 
 \vspace{20mm}
 
-{\bf rOpenGov} (rOpeGov core team, 2013) is an open source ecosystem
-based on the {\bf R statistical programming language} which has rich
-data analytical capabilities. We develop data analysis methods for
-computational social science (Lazer et al. 2009) and digital
-humanities. The main components include:
+{\bf rOpenGov} (rOpenGov core team, 2013) is an open source ecosystem
+and a developer community dedicated to open data analytics for
+computational social science and digital humanities. The main
+components include:
 
 \begin{itemize}
 
@@ -231,8 +231,9 @@ humanities. The main components include:
 \textcolor{blue}{http://ropengov.github.io} highlights the
 opportunities of open data analytics.
 
-\item {\bf Online tutorials} demonstrate how to access and analyse
-open data streams.
+\item {\bf Online tutorials} demonstrate how to access open data
+streams from the original sources and carry out specific analysis
+tasks.
 
 \item {\bf R packages} are used to share computational algorithms to
 support reproducible data analysis. We provide tools for open data in
@@ -275,7 +276,7 @@ print(p)
 
 
 \node [myboxwhite, below of=ropengov, node distance=49cm, xshift=3cm] (references){%
-    \begin{minipage}{0.4\textwidth}
+    \begin{minipage}{0.42\textwidth}
 
     \normalsize{
     \section*{References}
