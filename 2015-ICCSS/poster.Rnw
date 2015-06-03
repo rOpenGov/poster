@@ -166,8 +166,8 @@ use GitHub for shared version control and open development.
   <<page4-1, eval=TRUE, dev='pdf', fig.height=5, fig.width=5, cache=TRUE, message=FALSE, warning=FALSE, results="hide", echo=FALSE>>=
   library(eurostat)
   library(tidyr)
-  
-
+    
+    
   df$time <- eurotime2num(df$time)
   df <- df[df$time == max(df$time),]
   library(rgdal)
@@ -233,7 +233,7 @@ use GitHub for shared version control and open development.
 
   @
 
-This poster, including the Eurostat analysis example, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/rOpenGov/poster/blob/master/eurostat_map.R}}
+This poster, including the Eurostat analysis example, is fully reproducible. Download the full source code at \textcolor{blue}{\url{https://github.com/rOpenGov/poster/2015-ICCSS/code/blob/master/eurostat_map.R}}
 
 \end{minipage}
 };
