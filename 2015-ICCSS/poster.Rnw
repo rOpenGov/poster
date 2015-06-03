@@ -165,7 +165,7 @@ use GitHub for shared version control and open development.
 
   
   %\begin{figure}[h!]
-  <<page4-1, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE, >>=
+  <<page4-1, eval=TRUE, dev='pdf', fig.height=22, fig.width=22, cache=FALSE, message=FALSE, warning=FALSE, echo=FALSE>>=
   library(eurostat)
   library(tidyr)
     
@@ -226,7 +226,8 @@ use GitHub for shared version control and open development.
   p
 
   @
-  %\caption{This is figure caption, too!}
+  \textbf{Figure 1} In this picture a lot of things happens!
+  \vspace{10mm}
   %\end{figure}
 
 
