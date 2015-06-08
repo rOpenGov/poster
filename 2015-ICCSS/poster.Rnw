@@ -161,6 +161,7 @@ shared version control and open development.
   \vspace{150mm}
   
   <<lataa_shape, echo=FALSE, cache=TRUE, results="hide", message=FALSE>>=
+  library(eurostat)
   download.file("http://ec.europa.eu/eurostat/cache/GISCO/geodatafiles/NUTS_2010_60M_SH.zip", destfile="NUTS_2010_60M_SH.zip")
   unzip("NUTS_2010_60M_SH.zip")
     df <- get_eurostat("tgs00026", time_format = "raw") 
